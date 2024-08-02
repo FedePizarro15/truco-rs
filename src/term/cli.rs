@@ -13,9 +13,9 @@ use clap::{Parser, Subcommand};
 use owo_colors::OwoColorize;
 use serde::{Deserialize, Serialize};
 
-use crate::{delete_all_dirs_recursively, game::jugador::Jugador, input};
+use crate::{delete_all_dirs_recursively, game::jugador::Jugador, input, term::tui::button::TuiButton};
 
-use super::tui::{Tui, TuiButton};
+use super::tui::Tui;
 
 #[derive(Parser, Debug)]
 #[command(
@@ -96,6 +96,7 @@ pub fn handle_cli(cli: Cli) -> Result<(), Error> {
         tui.elements[0].change_position(None, Some(y));
         sleep(Duration::from_millis(2000));
     }
+    
     match crossterm::event::read()? {
         _ => {}
     }

@@ -41,6 +41,7 @@ macro_rules! log {
         
     };
 }
+
 #[macro_export]
 macro_rules! logln {
     ($($arg:expr),*) => {
