@@ -13,7 +13,12 @@ use clap::{Parser, Subcommand};
 use owo_colors::OwoColorize;
 use serde::{Deserialize, Serialize};
 
-use crate::{delete_all_dirs_recursively, game::jugador::Jugador, input, term::tui::button::TuiButton};
+use crate::{
+    delete_all_dirs_recursively,
+    game::jugador::Jugador,
+    input,
+    term::tui::{button::TuiButton, text::TuiText, TuiBuilder},
+};
 
 use super::tui::Tui;
 
@@ -54,7 +59,7 @@ struct Options {
     debug: bool,
     autosave: bool,
     selected_player: Option<u64>, // Jugador seleccionado por id.
-    cli_mode: bool
+    cli_mode: bool,
 }
 
 impl Options {
@@ -63,7 +68,7 @@ impl Options {
             debug: false,
             autosave: true,
             selected_player: None,
-            cli_mode: false
+            cli_mode: false,
         }
     }
 
@@ -82,44 +87,44 @@ impl Options {
     }
 }
 
-
-
 pub fn handle_cli(cli: Cli) -> Result<(), Error> {
-
     use std::thread::sleep;
     use std::time::Duration;
-    let mut tui = Tui::new();
-    tui.add_element(Box::new(TuiButton::default()));
+    let mut tui = TuiBuilder::default()
+        .elements(vec![
+            Box::new(TuiText::new(0, 0, "Hola")),
+            Box::new(TuiButton::default()),
+            Box::new(TuiButton::new(10, 0, None, "Hola", crate::term::tui::button::TuiButtonStyle::Underline)),
+            ])
+        .build_and_init()
+        .unwrap();
 
-    for y in 0..20 {
+    tui.draw();
+
+    for _ in 1..10 {
+        sleep(Duration::from_secs(1));
+        tui.iter_elements_mut().filter(|e| {
+            e.get_type() == crate::term::tui::element::TuiElementType::Button
+        }).for_each(|e| {
+            let pos = e.get_position();
+            e.change_position(Some(pos.0), Some(pos.1 + 1));
+        });
         tui.draw();
-        tui.elements[0].change_position(None, Some(y));
-        sleep(Duration::from_millis(2000));
-    }
-    
-    match crossterm::event::read()? {
-        _ => {}
     }
 
+    crossterm::event::read()?;
 
     match cli.mode {
         Commands::Campaign {} => {
-            println!("Jugando modo campaña");
         }
         Commands::FastMatch { player_count } => {
-            println!("Jugando partido rapido con {} jugadores", player_count);
         }
         Commands::Multiplayer {} => {
-            println!("Jugando modo multijugador");
         }
         Commands::Options {} => {
             handle_options();
         }
         Commands::Test {} => {
-            println!("Test");
-            let nombre = input!("Ingrese nombre: ".white().bold());
-            println!("Hola, {}", nombre);
-            println!("{}", MAIN_MENU_STR);
         }
         Commands::Reset => {
             println!("{}", "Reseteando datos".red().bold());

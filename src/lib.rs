@@ -7,6 +7,9 @@ use owo_colors::OwoColorize;
 pub mod game;
 pub mod term;
 
+#[macro_use]
+extern crate derive_builder;
+
 // Un copy-cat de TryFrom, pero me permite usar genericos sin interferir con la implementacion estandar de TryFrom.
 trait Parse<T>: Sized {
     type Error;
@@ -41,7 +44,6 @@ macro_rules! log {
         
     };
 }
-
 #[macro_export]
 macro_rules! logln {
     ($($arg:expr),*) => {

@@ -3,7 +3,7 @@ use std::io::Stdout;
 use crossterm::{queue, style::Print};
 
 use super::{button::TuiButton, element::TuiElement};
-
+#[derive(Debug, Clone)]
 pub struct TuiSelection {
     x: u16,
     y: u16,
@@ -29,5 +29,11 @@ impl TuiElement for TuiSelection {
             }
             option.draw(stdout);
         }
+    }
+    fn get_position(&self) -> (u16, u16) {
+        (self.x, self.y)
+    }
+    fn get_type(&self) -> super::element::TuiElementType {
+        super::element::TuiElementType::Selection
     }
 }

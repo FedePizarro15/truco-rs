@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{tui_debug, tui_print_at};
 
-use super::element::TuiElement;
+use super::element::{TuiElement, TuiElementType};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum TuiButtonStyle {
@@ -16,8 +16,8 @@ pub enum TuiButtonStyle {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TuiButton {
-    x: u16,           // middle of the button at x
-    y: u16,           // middle of the button at y
+    x: u16,           // up-left corner of the button at x
+    y: u16,           // up-left corner of the button at y
     size: (u16, u16), // it will be used to calculate the middle of the button
     text: String,     // the text to display
     style: TuiButtonStyle,
@@ -33,18 +33,25 @@ impl TuiElement for TuiButton {
             self.y = y;
         }
     }
+    fn get_position(&self) -> (u16, u16) {
+        (self.x, self.y)
+    }
+    fn get_type(&self) -> TuiElementType {
+        TuiElementType::Button
+    }
     fn draw(&self, stdout: &mut Stdout) {
-        let x = self.x - self.size.0 / 2;
-        let y = self.y - self.size.1 / 2;
-        let (text_x, text_y) = (x - self.text.len().try_into().unwrap_or(0) / 2, y);
+        let (text_x, text_y) = (
+            self.size.0 / 2 + self.x - (self.text.len() as u16 / 2) + self.size.0 % 2,
+            self.y + (self.size.1 / 2),
+        );
 
         tui_debug!(
             stdout,
             format!(
                 "term_size: {:?}, x: {}, y: {}, size: {:?}",
                 crossterm::terminal::size(),
-                x,
-                y,
+                self.x,
+                self.y,
                 self.size
             )
         );
@@ -53,34 +60,45 @@ impl TuiElement for TuiButton {
 
         match self.style {
             TuiButtonStyle::FullBox => {
-                queue!(stdout, MoveTo(x, y), Print("┌")).unwrap();
-                queue!(stdout, MoveTo(x + self.size.0, y), Print("┐")).unwrap();
-                queue!(stdout, MoveTo(x, y + self.size.1), Print("└")).unwrap();
-                queue!(stdout, MoveTo(x + self.size.0, y + self.size.1), Print("┘")).unwrap();
+                queue!(stdout, MoveTo(self.x, self.y), Print("┌")).unwrap();
+                queue!(stdout, MoveTo(self.x + self.size.0, self.y), Print("┐")).unwrap();
+                queue!(stdout, MoveTo(self.x, self.y + self.size.1), Print("└")).unwrap();
+                queue!(stdout, MoveTo(self.x + self.size.0, self.y + self.size.1), Print("┘")).unwrap();
                 for i in 1..self.size.0 {
-                    queue!(stdout, MoveTo(x + i, y), Print("─")).unwrap();
-                    queue!(stdout, MoveTo(x + i, y + self.size.1), Print("─")).unwrap();
+                    queue!(stdout, MoveTo(self.x + i, self.y), Print("─")).unwrap();
+                    queue!(stdout, MoveTo(self.x + i, self.y + self.size.1), Print("─")).unwrap();
                 }
                 for i in 1..self.size.1 {
-                    queue!(stdout, MoveTo(x, y + i), Print("│")).unwrap();
-                    queue!(stdout, MoveTo(x + self.size.0, y + i), Print("│")).unwrap();
+                    queue!(stdout, MoveTo(self.x, self.y + i), Print("│")).unwrap();
+                    queue!(
+                        stdout,
+                        MoveTo(self.x + self.size.0, self.y + i),
+                        Print("│")
+                    )
+                    .unwrap();
                 }
             }
             TuiButtonStyle::VerticalBox => {
-                queue!(stdout, MoveTo(x, y), Print("┌")).unwrap();
-                queue!(stdout, MoveTo(x, y + self.size.1), Print("└")).unwrap();
-                queue!(stdout, MoveTo(x + self.size.0, y), Print("┐")).unwrap();
-                queue!(stdout, MoveTo(x + self.size.0, y + self.size.1), Print("┘")).unwrap();
+                queue!(stdout, MoveTo(self.x, self.y + self.size.1), Print("└")).unwrap();
+                queue!(stdout, MoveTo(self.x + self.size.0, self.y + self.size.1), Print("┘")).unwrap();
+                queue!(stdout, MoveTo(self.x, self.y), Print("┌")).unwrap();
+                queue!(stdout, MoveTo(self.x + self.size.0, self.y), Print("┐")).unwrap();
+                
                 for i in 1..self.size.1 {
-                    queue!(stdout, MoveTo(x, y + i), Print("│")).unwrap();
-                    queue!(stdout, MoveTo(x + self.size.0, y + i), Print("│")).unwrap();
+                    queue!(stdout, MoveTo(self.x, self.y + i), Print("│")).unwrap();
+                    queue!(
+                        stdout,
+                        MoveTo(self.x + self.size.0, self.y + i),
+                        Print("│")
+                    )
+                    .unwrap();
                 }
             }
             TuiButtonStyle::Underline => {
-                queue!(stdout, MoveTo(text_x - 1, self.y), Print("└")).unwrap();
-                queue!(stdout, MoveTo(text_x + self.size.0 - 1, self.y), Print("┘")).unwrap();
+                queue!(stdout, MoveTo(self.x, self.y + self.size.1), Print("└")).unwrap();
+                queue!(stdout, MoveTo(self.x + self.size.0, self.y + self.size.1), Print("┘")).unwrap();
                 for i in 1..self.size.0 {
-                    queue!(stdout, MoveTo(text_x + i - 1, y + 1), Print("─")).unwrap();
+                    queue!(stdout, MoveTo(self.x + i, self.y + self.size.1), Print("─")).unwrap();
                 }
             }
         }
@@ -88,11 +106,27 @@ impl TuiElement for TuiButton {
 }
 
 impl TuiButton {
-    fn new(x: u16, y: u16, size: (u16, u16), text: String, style: TuiButtonStyle) -> Self {
+    pub fn new(
+        x: u16,
+        y: u16,
+        size: Option<(u16, u16)>,
+        text: impl Into<String>,
+        style: TuiButtonStyle,
+    ) -> Self {
+        let text = text.into();
         Self {
             x,
             y,
-            size,
+            size: {
+                if let Some(size) = size {
+                    size
+                } else {
+                    let text_len = text.len() as u16;
+                    let width = text_len + 1; // Add padding of 2 characters
+                    let height = 2; // Set a default height of 3
+                    (width, height)
+                }
+            },
             text,
             style,
             selected: false,
@@ -102,15 +136,6 @@ impl TuiButton {
 
 impl Default for TuiButton {
     fn default() -> Self {
-        Self {
-            x: 18,
-            y: 9,
-            size: (5, 3), //
-            //       Text
-            //     └------┘
-            text: String::from("Text"),
-            style: TuiButtonStyle::Underline,
-            selected: false,
-        }
+        Self::new(9, 9, None, "Text", TuiButtonStyle::Underline)
     }
 }

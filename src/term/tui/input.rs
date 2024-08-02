@@ -24,4 +24,10 @@ impl TuiElement for TuiInput {
     fn draw(&self, stdout: &mut Stdout) {
         queue!(stdout, MoveTo(self.x, self.y), Print(&self.text)).unwrap();
     }
+    fn get_position(&self) -> (u16, u16) {
+        (self.x, self.y)
+    }
+    fn get_type(&self) -> super::element::TuiElementType {
+        super::element::TuiElementType::Input
+    }
 }
