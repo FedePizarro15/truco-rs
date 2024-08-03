@@ -1,9 +1,7 @@
-use crossterm::cursor::MoveTo;
 use crossterm::event::{read, Event, KeyCode::*};
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-use crossterm::queue;
-use crossterm::style::Print;
 use crossterm::terminal::{disable_raw_mode, enable_raw_mode, Clear};
+use crossterm::{cursor::MoveTo, queue, style::Print};
 use element::TuiElement;
 use serde::{Deserialize, Serialize};
 use std::error::Error;
@@ -20,7 +18,8 @@ use cursor::Cursor;
 
 #[macro_export]
 macro_rules! tui_debug {
-        ($stdout:expr, $($arg:expr),*) => {{
+    ($stdout:expr, $($arg:expr),*) => {{
+        use crossterm::{cursor::MoveTo, queue, style::Print};
             use std::io::Write;
             let term_size = crossterm::terminal::size().unwrap();
             let (x, y) = term_size;
@@ -33,6 +32,7 @@ macro_rules! tui_debug {
 #[macro_export]
 macro_rules! tui_print_at {
         ($s:expr, $x:expr, $y:expr, $($arg:expr),*) => {{
+            use crossterm::{cursor::MoveTo, queue, style::Print};
             queue!($s, MoveTo($x, $y)).unwrap();
             $(queue!($s, Print($arg)).unwrap();)*
         }};
@@ -52,7 +52,7 @@ pub struct Tui {
     elements: Vec<Box<dyn TuiElement>>,
     // The terminal stdout
     #[builder(default = "stdout()", setter(skip))]
-    stdout: io::Stdout,
+    pub stdout: io::Stdout,
 }
 
 impl TuiBuilder {
@@ -85,13 +85,15 @@ impl Tui {
         self.elements.push(element);
     }
 
-    fn handle_event(&mut self, event: Event) {}
+    fn handle_event(&mut self, event: Event) {
+        unimplemented!()
+    }
 }
 
 impl Drop for Tui {
     fn drop(&mut self) {
-        queue!(stdout(), crossterm::cursor::Show).unwrap();
-        queue!(stdout(), crossterm::terminal::LeaveAlternateScreen).unwrap();
+        queue!(self.stdout, crossterm::cursor::Show).unwrap();
+        queue!(self.stdout, crossterm::terminal::LeaveAlternateScreen).unwrap();
         disable_raw_mode().unwrap();
     }
 }
@@ -105,7 +107,6 @@ pub struct TuiElementIter<'a> {
 pub struct TuiElementIterMut<'a> {
     elements: std::slice::IterMut<'a, Box<dyn TuiElement>>,
 }
-
 
 impl<'a> Iterator for TuiElementIter<'a> {
     type Item = &'a Box<dyn TuiElement>;
@@ -123,7 +124,6 @@ impl<'a> Iterator for TuiElementIterMut<'a> {
     }
 }
 
-
 impl Tui {
     pub fn iter_elements(&self) -> TuiElementIter {
         TuiElementIter {
@@ -138,4 +138,6 @@ impl Tui {
     }
 }
 
+// * Implementación de get_from_selection
 
+impl Tui {}

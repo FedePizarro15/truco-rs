@@ -12,13 +12,8 @@ pub struct TuiSelection {
 }
 
 impl TuiElement for TuiSelection {
-    fn change_position(&mut self, x: Option<u16>, y: Option<u16>) {
-        if let Some(x) = x {
-            self.x = x;
-        }
-        if let Some(y) = y {
-            self.y = y;
-        }
+    fn change_position(&mut self, loc: Option<super::element::TuiElementLocation>) {
+        unimplemented!()
     }
     fn draw(&self, stdout: &mut Stdout) {
         for (i, option) in self.options.iter().enumerate() {
@@ -35,5 +30,11 @@ impl TuiElement for TuiSelection {
     }
     fn get_type(&self) -> super::element::TuiElementType {
         super::element::TuiElementType::Selection
+    }
+    fn as_any(&self) -> &dyn std::any::Any {
+        self
+    }
+    fn as_any_mut(&mut self) -> &mut dyn std::any::Any {
+        self
     }
 }

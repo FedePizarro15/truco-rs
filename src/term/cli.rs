@@ -7,7 +7,10 @@ pub const MAIN_MENU_STR: &str = r"  _______
    `---'                                
 ";
 
-use std::io::Error;
+use std::{
+    any::{type_name, Any},
+    io::{stdout, Error},
+};
 
 use clap::{Parser, Subcommand};
 use owo_colors::OwoColorize;
@@ -17,9 +20,17 @@ use crate::{
     delete_all_dirs_recursively,
     game::jugador::Jugador,
     input,
-    term::tui::{button::TuiButton, text::TuiText, TuiBuilder},
+    term::tui::{
+        button::TuiButton,
+        element::{TuiElement, TuiElementLocation},
+        text::TuiText,
+        TuiBuilder,
+    },
+    tui_debug,
 };
 
+use super::tui::button::TuiButtonStyle::*;
+use super::tui::element::TuiElementType;
 use super::tui::Tui;
 
 #[derive(Parser, Debug)]
@@ -88,44 +99,68 @@ impl Options {
 }
 
 pub fn handle_cli(cli: Cli) -> Result<(), Error> {
+    use rand::distributions::Alphanumeric;
+    use rand::{thread_rng, Rng};
     use std::thread::sleep;
     use std::time::Duration;
     let mut tui = TuiBuilder::default()
         .elements(vec![
             Box::new(TuiText::new(0, 0, "Hola")),
-            Box::new(TuiButton::default()),
-            Box::new(TuiButton::new(10, 0, None, "Hola", crate::term::tui::button::TuiButtonStyle::Underline)),
-            ])
+            Box::new(TuiButton::new(
+                TuiElementLocation::Right,
+                None,
+                "",
+                Underline,
+            )),
+            Box::new(TuiButton::new(
+                TuiElementLocation::Down,
+                None,
+                "",
+                FullBox,
+            )),
+            Box::new(TuiButton::new(
+                TuiElementLocation::Left,
+                None,
+                "",
+                VerticalBox,
+            )),
+        ])
         .build_and_init()
         .unwrap();
 
     tui.draw();
 
-    for _ in 1..10 {
-        sleep(Duration::from_secs(1));
-        tui.iter_elements_mut().filter(|e| {
-            e.get_type() == crate::term::tui::element::TuiElementType::Button
-        }).for_each(|e| {
-            let pos = e.get_position();
-            e.change_position(Some(pos.0), Some(pos.1 + 1));
-        });
+    for i in 1..20 {
+        sleep(Duration::from_millis(600));
+        tui.iter_elements_mut()
+            .filter(|e| e.get_type() == TuiElementType::Button)
+            .for_each(|e| {
+                if let Some(e) = e.as_any_mut().downcast_mut::<TuiButton>() {
+                    // Mind boggling
+                    e.mutate_text(
+                        thread_rng()
+                            .sample_iter(&Alphanumeric)
+                            .take(thread_rng().gen_range(1..50))
+                            .map(char::from)
+                            .collect::<String>(),
+                    );
+                }
+                let pos = e.get_position();
+                e.change_position(Some(TuiElementLocation::Absolute(pos)));
+            });
         tui.draw();
     }
 
     crossterm::event::read()?;
 
     match cli.mode {
-        Commands::Campaign {} => {
-        }
-        Commands::FastMatch { player_count } => {
-        }
-        Commands::Multiplayer {} => {
-        }
+        Commands::Campaign {} => {}
+        Commands::FastMatch { player_count } => {}
+        Commands::Multiplayer {} => {}
         Commands::Options {} => {
             handle_options();
         }
-        Commands::Test {} => {
-        }
+        Commands::Test {} => {}
         Commands::Reset => {
             println!("{}", "Reseteando datos".red().bold());
             delete_all_dirs_recursively().expect("Error al borrar directorios");
