@@ -75,7 +75,7 @@ use owo_colors::OwoColorize;
 use serde::{Deserialize, Serialize};
 use tui::{
     backend::{Backend, CrosstermBackend},
-    layout::{Alignment, Constraint, Direction, Layout},
+    layout::{Alignment, Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
     text::{Span, Spans, Text},
     widgets::{Block, BorderType, Borders, Paragraph, Tabs, Wrap},
@@ -84,7 +84,7 @@ use tui::{
 
 use crate::{delete_all_dirs_recursively, game::jugador::Jugador, input};
 
-use super::options::handle_options;
+use super::{main_menu_state::{MainMenuOptions, MainMenuState}, options::handle_options};
 
 #[derive(Parser, Debug)]
 #[command(
@@ -116,76 +116,6 @@ enum Commands {
     Test {},
     #[command(about = "Eliminar todos los datos (PELIGROSO)")]
     Reset,
-}
-
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
-enum MainMenuOptions {
-    Campaign,
-    FastMatch,
-    Multiplayer,
-    Options,
-    Test,
-    Reset,
-}
-
-impl MainMenuOptions {
-    fn as_str(&self) -> &str {
-        match self {
-            MainMenuOptions::Campaign => "Campaña",
-            MainMenuOptions::FastMatch => "Partida rapida",
-            MainMenuOptions::Multiplayer => "Multijugador",
-            MainMenuOptions::Options => "Opciones",
-            MainMenuOptions::Test => "Test",
-            MainMenuOptions::Reset => "Reset",
-        }
-    }
-}
-
-struct MainMenuState<'a> {
-    main_menu_options: Vec<MainMenuOptions>,
-    tabs_titles: Vec<&'a str>,
-    option_selected: usize,
-    tab_selected: usize,
-}
-
-impl<'a> MainMenuState<'a> {
-    fn new() -> Self {
-        Self {
-            main_menu_options: vec![
-                MainMenuOptions::Campaign,
-                MainMenuOptions::FastMatch,
-                MainMenuOptions::Multiplayer,
-                // MainMenuOptions::Options,
-                // MainMenuOptions::Test,
-                // MainMenuOptions::Reset,
-            ],
-            tabs_titles: vec!["Menu principal", "Opciones"],
-            option_selected: 0,
-            tab_selected: 0,
-        }
-    }
-
-    fn next_tab(&mut self) {
-        self.tab_selected = (self.tab_selected + 1) % self.tabs_titles.len();
-    }
-
-    fn previous_tab(&mut self) {
-        self.tab_selected =
-            (self.tab_selected + self.tabs_titles.len() - 1) % self.tabs_titles.len();
-    }
-
-    fn next_mm_option(&mut self) {
-        self.option_selected = (self.option_selected + 1) % self.main_menu_options.len();
-    }
-
-    fn previous_mm_option(&mut self) {
-        self.option_selected = (self.option_selected + self.main_menu_options.len() - 1)
-            % self.main_menu_options.len();
-    }
-
-    fn selected_mm_option(&self) -> MainMenuOptions {
-        self.main_menu_options[self.option_selected]
-    }
 }
 
 pub fn handle_cli(cli: Cli) -> Result<(), Error> {
@@ -236,8 +166,8 @@ fn run_app<B: Backend>(terminal: &mut Terminal<B>) -> io::Result<()> {
 
         if let Event::Key(key) = event::read()? {
             match key.code {
-                KeyCode::Left => menu_state.previous_mm_option(),
-                KeyCode::Right => menu_state.next_mm_option(),
+                KeyCode::Left => menu_state.previous(),
+                KeyCode::Right => menu_state.next(),
                 KeyCode::Char(c) => match c {
                     'e' => menu_state.next_tab(),
                     'q' => menu_state.previous_tab(),
@@ -258,22 +188,29 @@ fn main_menu<B: Backend>(f: &mut Frame<B>, state: &MainMenuState) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .margin(0)
-        .constraints([Constraint::Percentage(100)].as_ref())
+        .constraints([Constraint::Length(3), Constraint::Percentage(100)].as_ref())
         .split(size);
 
-    // Recuadro principal
-    let main_box = Block::default()
-        .borders(Borders::ALL)
-        .border_type(BorderType::Rounded)
-        // .title("Main menu")
-        .title_alignment(Alignment::Left);
-
-    f.render_widget(main_box, chunks[0]);
+    let tab_chunks = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints(
+            [
+                Constraint::Length(
+                    state
+                        .tabs_titles_iter()
+                        .map(|&s| s.chars().count() as u16 + 4)
+                        .sum::<u16>()
+                        - 1,
+                ),
+                Constraint::Percentage(100),
+            ]
+            .as_ref(),
+        )
+        .split(chunks[0]);
 
     // Tabs
     let titles = state
-        .tabs_titles
-        .iter()
+        .tabs_titles_iter()
         .map(|&title| {
             Spans::from(Span::styled(
                 title,
@@ -295,16 +232,37 @@ fn main_menu<B: Backend>(f: &mut Frame<B>, state: &MainMenuState) {
         .highlight_style(Style::default().fg(Color::Red).add_modifier(Modifier::BOLD))
         .divider(Span::raw("|"));
 
-    f.render_widget(tabs, chunks[0]);
+    f.render_widget(tabs, tab_chunks[0]);
 
+
+    match state.tab_selected {
+        0 => {render_main_menu(f, state, chunks[1])},
+        1 => {},
+        _ => {}
+    }
+
+    
+}
+
+
+fn render_main_menu<B: Backend>(f: &mut Frame<B>, state: &MainMenuState, chunk: Rect) {
     // Sub recuadros, uno para el ascii art y otro para las opciones
     let sub_chunks = Layout::default()
         .direction(Direction::Horizontal)
-        .margin(5)
+        .vertical_margin(4)
+        .horizontal_margin(1)
         .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
         .direction(Direction::Vertical)
-        .split(chunks[0]);
+        .split(chunk);
+    
+    // Recuadro principal
+    let main_box = Block::default()
+        .borders(Borders::ALL)
+        .border_type(BorderType::Rounded)
+        // .title("Main menu")
+        .title_alignment(Alignment::Left);
 
+    f.render_widget(main_box, chunk);
     // Ascii art
     let main_menu_ascii_art = Text::from(MAIN_MENU_STR_2);
     let main_menu_str_paragraph = Paragraph::new(main_menu_ascii_art)
