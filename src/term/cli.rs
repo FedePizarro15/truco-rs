@@ -1,4 +1,4 @@
-pub const MAIN_MENU_STR: &str = r"  _______                               
+pub const MAIN_MENU_STR_1: &str = r"  _______                               
  |       | .----. .--.--. .----. .-----.
  |.|   | | |   _| |  |  | |  __| |  _  |
  `-|.  |-' |__|   |_____| |____| |_____|
@@ -7,31 +7,84 @@ pub const MAIN_MENU_STR: &str = r"  _______
    `---'                                
 ";
 
+pub const MAIN_MENU_STR_2: &str = r"                                      _..._         .-'''-.     
+                                   .-'_..._''.     '   _    \   
+                                 .' .'      '.\  /   /` '.   \  
+                                / .'            .   |     \  '  
+     .|   .-,.--.              . '              |   '      |  ' 
+   .' |_  |  .-. |             | |              \    \     / /  
+ .'     | | |  | |    _    _   | |               `.   ` ..' /   
+'--.  .-' | |  | |   | '  / |  . '                  '-...-'`    
+   |  |   | |  '-   .' | .' |   \ '.          .                 
+   |  |   | |       /  | /  |    '. `._____.-'/                 
+   |  '.' | |      |   `'.  |      `-.______ /                  
+   |   /  |_|      '   .'|  '/              `                   
+   `'-'             `-'  `--'                                   
+
+";
+
+pub const MAIN_MENU_STR_3: &str = r"         ,  . .,  °         ,. -  .,                 .-,             ,'´¨';'                 ,. - .,                , ·. ,.-·~·.,   ‘    
+   ;'´    ,   ., _';\'     ,' ,. -  .,  `' ·,          ;  ';\          ,'   ';'\'          ,·'´ ,. - ,   ';\           /  ·'´,.-·-.,   `,'‚    
+   \:´¨¯:;'   `;::'\:'\    '; '·~;:::::'`,   ';\      ';   ;:'\        ,'   ,'::'\     ,·´  .'´\:::::;'   ;:'\ '       /  .'´\:::::::'\   '\ °  
+     \::::;   ,'::_'\;'     ;   ,':\::;:´  .·´::\'    ';  ';::';      ,'   ,'::::;    /  ,'´::::'\;:-/   ,' ::;  '  ,·'  ,'::::\:;:-·-:';  ';\‚  
+         ,'  ,'::;'  ‘       ;  ·'-·'´,.-·'´:::::::';   ';  ';::;     ,'   ,'::::;'   ,'   ;':::::;'´ ';   /\::;' '   ;.   ';:::;´       ,'  ,':'\‚ 
+         ;  ;:::;  °     ;´    ':,´:::::::::::·´'    ';  ';::;    ,'   ,'::::;'    ;   ;:::::;   '\*'´\::\'  °    ';   ;::;       ,'´ .'´\::';‚
+         ;  ;::;'  ‘       ';  ,    `·:;:-·'´          \   '·:_,'´.;   ;::::;‘    ';   ';::::';    '\::'\/.'       ';   ':;:   ,.·´,.·´::::\;'°
+         ;  ;::;'‚         ; ,':\'`:·.,  ` ·.,          \·,   ,.·´:';  ';:::';      \    '·:;:'_ ,. -·'´.·´\‘      \·,   `*´,.·'´::::::;·´   
+         ',.'\::;'‚         \·-;::\:::::'`:·-.,';         \:\¯\:::::\`*´\::;  '     '\:` ·  .,.  -·:´::::::\'      \\:¯::\:::::::;:·´      
+          \::\:;'‚          \::\:;'` ·:;:::::\::\'         `'\::\;:·´'\:::'\'   '       \:::::::\:::::::;:·'´'        `\:::::\;::·'´  °       
+           \;:'      ‘       '·-·'       `' · -':::''                    `*´°            `· :;::\;::-·´                 ¯                  
+             °                                                        '                                               ‘                  
+
+";
+
+pub const MAIN_MENU_STR_4: &str = r"   /\                            /\   /¯¯¯¯\                  /\ '                                 /\    '‚           /¯¯¯\ '         
+ /    \__________'      /    \|   |:'\    \              /    \     '                         /    \     °      /         \‚        
+|                        \°   |\         |:::|    |            |\      \‚                           |\      \     '   /            '\°      
+|\____         _       \'  |:|        |::/    /|            |:|      |    /'\‚             /¯¯¯\|:|      |‘      |        |\      \°    
+|:|::::::|\       \:|\     /|° |:|        |/    /::|            |/      /|  /    \          /     /|\ \/     /|‘      |        |::\      \ '‚ 
+|:|::::::|::\       \::\/:::|   \|            (:::'|           /      /::| |\      \      /     /::|::\__/::'|‘      |\       '\:::\      \ '
+ \|::::::|::::\       \:|:::|    |      |\      \:/'         /      /::::| |:|      '|   /     /::::|:::|::|:::'|‚      |::\       '\::|      | 
+   ¯¯¯ \:::::\       \:::/‘   |      |::\      \'       /      /:::::/  |/      /|  |     |:::::/\::|::|:::/'  ‚    |::::\       '\|      | 
+           \::::|        |/'     |      |::::\      \'   /      /:::::/'  /      /::|'‚ |\     \::/ /¯¯¯¯¯¯¯\°    \:::::\            /| 
+             \'/        /|‘     /'     /|\::::|      '|‘ |      |:::::/  /      /::::|'‚ |::\     \/  /|\           \‚     \:::::\____ /::| 
+             |\       /::|'    |\    /::|  \/       /|‘ |\      \::/_/      (:::::/   |::::\___/::|::\         /|‘      \::::|::::::|:::'| 
+             |::\   /::::|'    |::\/::::|   |\    /::|  |::\______/|\    /|::/‘     \::::|::::|::'|::::\     /::|‘        \::|::::::|::/‘ '
+             |:::'\/:::::/‘    |:::|::::/   |::\/::::|  |:::|:::::::::|:|::\/::|/‘         \::|::::|::/\:::::\ /::::|           \|::::::|/‘   '
+             \::::|::::/ '‚    \::'|::/     |:::|::::/°  \::|:::::::::|:|::|:::|‘            \|::::|/    \::::|::::/              ¯¯¯'      
+               \::|::/ '‚        '\|/        \::|::/       \|:::::::::|/\::|::/   °           ¯¯        \::|::/                ‘           
+                 \|/°                        \|/°          ¯¯¯¯¯    \|/                              '\|/                             ‘
+
+";
+
 use std::{
     any::{type_name, Any},
-    io::{stdout, Error},
+    io::{self, stdout, Error},
+    rc::Rc,
+    thread::sleep,
+    time::Duration,
 };
 
 use clap::{Parser, Subcommand};
+use crossterm::{
+    event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyCode},
+    execute, queue,
+    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+};
 use owo_colors::OwoColorize;
 use serde::{Deserialize, Serialize};
-
-use crate::{
-    delete_all_dirs_recursively,
-    game::jugador::Jugador,
-    input,
-    term::tui::{
-        button::TuiButton,
-        element::{TuiElement, TuiElementLocation},
-        text::TuiText,
-        TuiBuilder,
-    },
-    tui_debug,
+use tui::{
+    backend::{Backend, CrosstermBackend},
+    layout::{Alignment, Constraint, Direction, Layout},
+    style::{Color, Modifier, Style},
+    text::{Span, Spans, Text},
+    widgets::{Block, BorderType, Borders, Paragraph, Tabs, Wrap},
+    Frame, Terminal,
 };
 
-use super::tui::button::TuiButtonStyle::*;
-use super::tui::element::TuiElementType;
-use super::tui::Tui;
+use crate::{delete_all_dirs_recursively, game::jugador::Jugador, input};
+
+use super::options::handle_options;
 
 #[derive(Parser, Debug)]
 #[command(
@@ -65,93 +118,85 @@ enum Commands {
     Reset,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-struct Options {
-    debug: bool,
-    autosave: bool,
-    selected_player: Option<u64>, // Jugador seleccionado por id.
-    cli_mode: bool,
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+enum MainMenuOptions {
+    Campaign,
+    FastMatch,
+    Multiplayer,
+    Options,
+    Test,
+    Reset,
 }
 
-impl Options {
-    fn new(cli: &Cli) -> Self {
+impl MainMenuOptions {
+    fn as_str(&self) -> &str {
+        match self {
+            MainMenuOptions::Campaign => "Campaña",
+            MainMenuOptions::FastMatch => "Partida rapida",
+            MainMenuOptions::Multiplayer => "Multijugador",
+            MainMenuOptions::Options => "Opciones",
+            MainMenuOptions::Test => "Test",
+            MainMenuOptions::Reset => "Reset",
+        }
+    }
+}
+
+struct MainMenuState<'a> {
+    main_menu_options: Vec<MainMenuOptions>,
+    tabs_titles: Vec<&'a str>,
+    option_selected: usize,
+    tab_selected: usize,
+}
+
+impl<'a> MainMenuState<'a> {
+    fn new() -> Self {
         Self {
-            debug: false,
-            autosave: true,
-            selected_player: None,
-            cli_mode: false,
+            main_menu_options: vec![
+                MainMenuOptions::Campaign,
+                MainMenuOptions::FastMatch,
+                MainMenuOptions::Multiplayer,
+                // MainMenuOptions::Options,
+                // MainMenuOptions::Test,
+                // MainMenuOptions::Reset,
+            ],
+            tabs_titles: vec!["Menu principal", "Opciones"],
+            option_selected: 0,
+            tab_selected: 0,
         }
     }
 
-    fn save_to_file(&self) -> Result<(), std::io::Error> {
-        let file = std::fs::File::create("options.json")?;
-        let writer = std::io::BufWriter::new(file);
-        serde_json::to_writer(writer, self)?;
-        Ok(())
+    fn next_tab(&mut self) {
+        self.tab_selected = (self.tab_selected + 1) % self.tabs_titles.len();
     }
 
-    fn from_file() -> Result<Self, std::io::Error> {
-        let file = std::fs::File::open("options.json")?;
-        let reader = std::io::BufReader::new(file);
-        let options: Options = serde_json::from_reader(reader)?;
-        Ok(options)
+    fn previous_tab(&mut self) {
+        self.tab_selected =
+            (self.tab_selected + self.tabs_titles.len() - 1) % self.tabs_titles.len();
+    }
+
+    fn next_mm_option(&mut self) {
+        self.option_selected = (self.option_selected + 1) % self.main_menu_options.len();
+    }
+
+    fn previous_mm_option(&mut self) {
+        self.option_selected = (self.option_selected + self.main_menu_options.len() - 1)
+            % self.main_menu_options.len();
+    }
+
+    fn selected_mm_option(&self) -> MainMenuOptions {
+        self.main_menu_options[self.option_selected]
     }
 }
 
 pub fn handle_cli(cli: Cli) -> Result<(), Error> {
-    use rand::distributions::Alphanumeric;
-    use rand::{thread_rng, Rng};
-    use std::thread::sleep;
-    use std::time::Duration;
-    let mut tui = TuiBuilder::default()
-        .elements(vec![
-            Box::new(TuiText::new(0, 0, "Hola")),
-            Box::new(TuiButton::new(
-                TuiElementLocation::Right,
-                None,
-                "",
-                Underline,
-            )),
-            Box::new(TuiButton::new(
-                TuiElementLocation::Down,
-                None,
-                "",
-                FullBox,
-            )),
-            Box::new(TuiButton::new(
-                TuiElementLocation::Left,
-                None,
-                "",
-                VerticalBox,
-            )),
-        ])
-        .build_and_init()
-        .unwrap();
+    // setup terminal
+    enable_raw_mode()?;
+    let mut stdout = io::stdout();
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
+    let backend = CrosstermBackend::new(stdout);
+    let mut terminal = Terminal::new(backend)?;
 
-    tui.draw();
-
-    for i in 1..20 {
-        sleep(Duration::from_millis(600));
-        tui.iter_elements_mut()
-            .filter(|e| e.get_type() == TuiElementType::Button)
-            .for_each(|e| {
-                if let Some(e) = e.as_any_mut().downcast_mut::<TuiButton>() {
-                    // Mind boggling
-                    e.mutate_text(
-                        thread_rng()
-                            .sample_iter(&Alphanumeric)
-                            .take(thread_rng().gen_range(1..50))
-                            .map(char::from)
-                            .collect::<String>(),
-                    );
-                }
-                let pos = e.get_position();
-                e.change_position(Some(TuiElementLocation::Absolute(pos)));
-            });
-        tui.draw();
-    }
-
-    crossterm::event::read()?;
+    let res = run_app(&mut terminal);
 
     match cli.mode {
         Commands::Campaign {} => {}
@@ -166,11 +211,168 @@ pub fn handle_cli(cli: Cli) -> Result<(), Error> {
             delete_all_dirs_recursively().expect("Error al borrar directorios");
         }
     }
+
+    // restore terminal
+    disable_raw_mode()?;
+    execute!(
+        terminal.backend_mut(),
+        LeaveAlternateScreen,
+        DisableMouseCapture
+    )?;
+    terminal.show_cursor()?;
+
+    if let Err(e) = res {
+        println!("Error: {}", e);
+    }
+
     Ok(())
 }
 
-fn handle_options() {
-    println!("Configurando opciones");
-    let options = Options::from_file().unwrap_or_else(|_| Options::new(&Cli::parse()));
-    println!("{:?}", options);
+fn run_app<B: Backend>(terminal: &mut Terminal<B>) -> io::Result<()> {
+    // app main loop
+    let mut menu_state = MainMenuState::new();
+    loop {
+        terminal.draw(|f| main_menu(f, &menu_state))?;
+
+        if let Event::Key(key) = event::read()? {
+            match key.code {
+                KeyCode::Left => menu_state.previous_mm_option(),
+                KeyCode::Right => menu_state.next_mm_option(),
+                KeyCode::Char(c) => match c {
+                    'e' => menu_state.next_tab(),
+                    'q' => menu_state.previous_tab(),
+                    _ => {}
+                },
+                KeyCode::Esc | KeyCode::Backspace => break Ok(()),
+                _ => {}
+            }
+        }
+    }
+}
+
+fn main_menu<B: Backend>(f: &mut Frame<B>, state: &MainMenuState) {
+    // Tamaño de la terminal
+    let size = f.size();
+
+    // Chunks iniciales, en si es la pantalla entera
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .margin(0)
+        .constraints([Constraint::Percentage(100)].as_ref())
+        .split(size);
+
+    // Recuadro principal
+    let main_box = Block::default()
+        .borders(Borders::ALL)
+        .border_type(BorderType::Rounded)
+        // .title("Main menu")
+        .title_alignment(Alignment::Left);
+
+    f.render_widget(main_box, chunks[0]);
+
+    // Tabs
+    let titles = state
+        .tabs_titles
+        .iter()
+        .map(|&title| {
+            Spans::from(Span::styled(
+                title,
+                Style::default()
+                    .fg(Color::White)
+                    .add_modifier(Modifier::BOLD),
+            ))
+        })
+        .collect();
+
+    let tabs = Tabs::new(titles)
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .border_type(BorderType::Rounded),
+        )
+        .select(state.tab_selected)
+        .style(Style::default().fg(Color::White))
+        .highlight_style(Style::default().fg(Color::Red).add_modifier(Modifier::BOLD))
+        .divider(Span::raw("|"));
+
+    f.render_widget(tabs, chunks[0]);
+
+    // Sub recuadros, uno para el ascii art y otro para las opciones
+    let sub_chunks = Layout::default()
+        .direction(Direction::Horizontal)
+        .margin(5)
+        .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
+        .direction(Direction::Vertical)
+        .split(chunks[0]);
+
+    // Ascii art
+    let main_menu_ascii_art = Text::from(MAIN_MENU_STR_2);
+    let main_menu_str_paragraph = Paragraph::new(main_menu_ascii_art)
+        .style(Style::default().fg(Color::White))
+        .alignment(Alignment::Center);
+
+    f.render_widget(main_menu_str_paragraph, sub_chunks[0]);
+
+    // Los chunks para las opciones...
+    let item_chunk = Layout::default()
+        .direction(Direction::Horizontal)
+        .vertical_margin(7)
+        .horizontal_margin(1)
+        .constraints(
+            &state
+                .main_menu_options
+                .iter()
+                .map(|_| Constraint::Ratio(1, state.main_menu_options.len() as u32))
+                .collect::<Vec<_>>()[..],
+        )
+        .split(sub_chunks[1]);
+
+    // Las opciones en si
+    let items = state
+        .main_menu_options
+        .iter()
+        .enumerate()
+        .map(|(i, &opt)| {
+            let opt_str = match opt {
+                MainMenuOptions::Campaign => "Campaña",
+                MainMenuOptions::FastMatch => "Partida rapida",
+                MainMenuOptions::Multiplayer => "Multijugador",
+                MainMenuOptions::Options => "Opciones",
+                MainMenuOptions::Test => "Test",
+                MainMenuOptions::Reset => "Reset",
+            };
+            let style = if opt == state.selected_mm_option() {
+                Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)
+            } else {
+                Style::default().fg(Color::White)
+            };
+            Span::styled(opt_str, style)
+        })
+        .collect::<Vec<_>>();
+
+    items.iter().enumerate().for_each(|(i, item)| {
+        let paragraph = Paragraph::new(item.clone())
+            .block(
+                Block::default()
+                    .borders(Borders::ALL)
+                    .border_type({
+                        if state.selected_mm_option() == state.main_menu_options[i] {
+                            BorderType::Double
+                        } else {
+                            BorderType::Plain
+                        }
+                    })
+                    .border_style({
+                        if state.selected_mm_option() == state.main_menu_options[i] {
+                            Style::default().fg(Color::Red)
+                        } else {
+                            Style::default().fg(Color::White)
+                        }
+                    }),
+            )
+            .style(Style::default().fg(Color::White))
+            .alignment(Alignment::Center)
+            .wrap(Wrap { trim: false });
+        f.render_widget(paragraph, item_chunk[i]);
+    });
 }
