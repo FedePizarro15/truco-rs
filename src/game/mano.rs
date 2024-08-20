@@ -32,7 +32,7 @@ impl Mano for ManoTruco {
     }
 
     fn random() -> Self {
-        let mut cartas = Vec::new();
+        let mut cartas: Vec<Carta> = Vec::new();
 
         for _ in 0..3 {
             cartas.push(Carta::random());
@@ -42,7 +42,7 @@ impl Mano for ManoTruco {
     }
 
     fn from_mazo(mazo: &mut MazoTruco) -> Self {
-        let mut cartas:Vec<Carta> = Vec::new();
+        let mut cartas: Vec<Carta> = Vec::new();
 
         for _ in 0..3 {
         }
