@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 #![allow(unused)]
+
 use serde::{Deserialize, Serialize};
 
 use crate::check_if_folder_exists_and_create_if_not;
@@ -15,7 +16,7 @@ trait Mazo {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
-struct MazoTruco {
+pub struct MazoTruco {
     cartas: Vec<Carta>,
 }
 
@@ -47,6 +48,7 @@ impl Mazo for MazoTruco {
     fn draw(&mut self) -> Option<Carta> {
         self.cartas.pop()
     }
+    // TODO: Función repartir cartas.
 }
 
 impl MazoTruco {

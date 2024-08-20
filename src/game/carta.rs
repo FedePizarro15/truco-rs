@@ -34,7 +34,7 @@ impl std::fmt::Display for Palo {
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct Carta {
-    palo: Palo,
+    pub palo: Palo,
     valor: u8,
     relative_value: u8,
     //TODO: add in game properties.
@@ -63,6 +63,14 @@ impl Carta {
             palo,
             valor,
             relative_value,
+        }
+    }
+
+    pub const fn calc_envido_value(&self) -> u8 {
+        match self.valor {
+            10..=12 => 0,
+            _ => self.valor,
+
         }
     }
 
@@ -112,6 +120,8 @@ impl Carta {
             }
         )
     }
+
+    
 }
 
 impl PartialEq for Carta {
